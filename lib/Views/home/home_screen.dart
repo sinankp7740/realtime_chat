@@ -89,13 +89,39 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Users'),
+        elevation: 0,
+        backgroundColor: Colors.black,
+        centerTitle: false,
+        title: const Text(
+          'Chats',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         actions: [
-          IconButton(
-            onPressed: () => showLogoutDialog(context),
-            icon: Icon(Icons.logout),
+          Container(
+            margin: const EdgeInsets.only(right: 16),
+            decoration: BoxDecoration(
+              color: Colors.grey[900],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: IconButton(
+              onPressed: () => showLogoutDialog(context),
+              icon: const Icon(
+                Icons.logout_rounded,
+                color: Colors.white,
+                size: 22,
+              ),
+              tooltip: 'Logout',
+            ),
           ),
         ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(color: Colors.grey[850], height: 1),
+        ),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream:

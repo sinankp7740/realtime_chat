@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       navigatorKey: navigatorKey,
+      showSemanticsDebugger: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,

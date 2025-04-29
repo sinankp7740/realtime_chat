@@ -1,16 +1,10 @@
 # realtime_chat
 
-A new Flutter project.
 
-## Getting Started
+New user : New user can register by giving email and password.To navigate to registration page click on signup button in login screen
 
-This project is a starting point for a Flutter application.
+Existing User : Existing user can login with their email and password that have given when they registered.
 
-A few resources to get you started if this is your first Flutter project:
+Home screen : After loging in you can see the all the users available to chat in home screen
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Chat Screen : When tap on a user you can chat with that user

@@ -88,126 +88,126 @@ class _ChatViewState extends State<ChatView> with WidgetsBindingObserver {
     final Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
-        leading: Row(
-          children: [
-            IconButton(
-              onPressed: () => navigatorKey.currentState?.pop(),
-              icon: Icon(Icons.arrow_back, size: 20),
+        elevation: 0,
+        backgroundColor: Colors.black,
+        leadingWidth: 70,
+        leading: Container(
+          margin: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
+          decoration: BoxDecoration(
+            color: Colors.grey[900],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: IconButton(
+            onPressed: () => navigatorKey.currentState?.pop(),
+            icon: const Icon(
+              Icons.arrow_back_ios_rounded,
+              color: Colors.white,
+              size: 18,
             ),
-          ],
+          ),
         ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(6),
-              child: CircleAvatar(
-                backgroundColor: Colors.black,
-                child: Icon(Icons.person, color: Colors.white, size: 20),
-              ),
-            ),
-            SizedBox(width: 6),
-            Text(
-              widget.recieverEmail,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-          ],
+        title: Text(
+          widget.recieverEmail.split("@").first,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(color: Colors.grey[850], height: 1),
         ),
       ),
-
       bottomNavigationBar: Container(
         margin: EdgeInsets.only(
-          right: size.width * 0.02,
-          left: size.width * 0.02,
-          bottom: MediaQuery.of(context).viewInsets.bottom,
+          right: size.width * 0.04,
+          left: size.width * 0.04,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 12,
+          top: 8,
         ),
         child: Row(
           children: [
+            // Text input field
             Expanded(
               flex: 5,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
                 ),
-                child: Container(
-                  width: size.width,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  color: Colors.grey[900],
+                ),
+                child: TextField(
+                  controller: messageCtrl,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 15,
                     color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        spreadRadius: 1,
-                        blurRadius: 4,
-                        // blurStyle: BlurStyle.inner,
-                        color: Colors.grey.shade300,
-                        // Color(0xff7090B0),
-                      ),
-                    ],
                   ),
-                  child: TextField(
-                    controller: messageCtrl,
-                    style: const TextStyle(
+                  decoration: InputDecoration(
+                    isDense: true,
+                    hintText: 'Message...',
+                    hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
-                      fontSize: 13,
+                      fontSize: 15,
+                      color: Colors.grey[500],
                     ),
-                    decoration: const InputDecoration(
-                      isDense: true,
-                      hintText: 'Type here ....',
-                      hintStyle: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 13,
-                      ),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                    ),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
                   ),
                 ),
               ),
             ),
 
+            const SizedBox(width: 12),
+
+            // Send button
             Obx(
-              () => Expanded(
-                child: InkWell(
-                  onTap: () async {
-                    if (messageCtrl.text.trim().isNotEmpty) {
-                      await chatController.sendMessage(
-                        senderUid: widget.userUid,
-                        receiverUid: widget.recieverUid,
-                        senderEmail: widget.userEmail,
-                        receiverEmail: widget.recieverEmail,
-                        message: messageCtrl.text.trim(),
-                      );
-                      messageCtrl.clear();
-                    }
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          spreadRadius: 1,
-                          blurRadius: 4,
-                          // blurStyle: BlurStyle.inner,
-                          color: Colors.grey.shade200,
-                          // Color(0xff7090B0),
-                        ),
-                      ],
+              () => InkWell(
+                onTap: () async {
+                  if (messageCtrl.text.trim().isNotEmpty) {
+                    await chatController.sendMessage(
+                      senderUid: widget.userUid,
+                      receiverUid: widget.recieverUid,
+                      senderEmail: widget.userEmail,
+                      receiverEmail: widget.recieverEmail,
+                      message: messageCtrl.text.trim(),
+                    );
+                    messageCtrl.clear();
+                  }
+                },
+                borderRadius: BorderRadius.circular(50),
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.grey[800]!, Colors.black],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Center(
                     child:
                         chatController.isLoading.value
-                            ? CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 1,
+                            ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
                             )
-                            : const Icon(Icons.send, color: Colors.white),
+                            : const Icon(
+                              Icons.send_rounded,
+                              color: Colors.white,
+                              size: 18,
+                            ),
                   ),
                 ),
               ),
@@ -216,6 +216,105 @@ class _ChatViewState extends State<ChatView> with WidgetsBindingObserver {
         ),
       ),
 
+      // bottomNavigationBar: Container(
+      //   margin: EdgeInsets.only(
+      //     right: size.width * 0.02,
+      //     left: size.width * 0.02,
+      //     bottom: MediaQuery.of(context).viewInsets.bottom,
+      //   ),
+      //   child: Row(
+      //     children: [
+      //       Expanded(
+      //         flex: 5,
+      //         child: Card(
+      //           shape: RoundedRectangleBorder(
+      //             borderRadius: BorderRadius.circular(20),
+      //           ),
+      //           child: Container(
+      //             width: size.width,
+      //             padding: const EdgeInsets.symmetric(
+      //               vertical: 10,
+      //               horizontal: 12,
+      //             ),
+      //             decoration: BoxDecoration(
+      //               borderRadius: BorderRadius.circular(20),
+      //               color: Colors.white,
+      //               boxShadow: [
+      //                 BoxShadow(
+      //                   spreadRadius: 1,
+      //                   blurRadius: 4,
+      //                   // blurStyle: BlurStyle.inner,
+      //                   color: Colors.grey.shade300,
+      //                   // Color(0xff7090B0),
+      //                 ),
+      //               ],
+      //             ),
+      //             child: TextField(
+      //               controller: messageCtrl,
+      //               style: const TextStyle(
+      //                 fontWeight: FontWeight.w400,
+      //                 fontSize: 13,
+      //               ),
+      //               decoration: const InputDecoration(
+      //                 isDense: true,
+      //                 hintText: 'Type here ....',
+      //                 hintStyle: TextStyle(
+      //                   fontWeight: FontWeight.w400,
+      //                   fontSize: 13,
+      //                 ),
+      //                 border: InputBorder.none,
+      //                 enabledBorder: InputBorder.none,
+      //                 focusedBorder: InputBorder.none,
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+
+      //       Obx(
+      //         () => Expanded(
+      //           child: InkWell(
+      //             onTap: () async {
+      //               if (messageCtrl.text.trim().isNotEmpty) {
+      //                 await chatController.sendMessage(
+      //                   senderUid: widget.userUid,
+      //                   receiverUid: widget.recieverUid,
+      //                   senderEmail: widget.userEmail,
+      //                   receiverEmail: widget.recieverEmail,
+      //                   message: messageCtrl.text.trim(),
+      //                 );
+      //                 messageCtrl.clear();
+      //               }
+      //             },
+      //             child: Container(
+      //               padding: const EdgeInsets.all(12),
+      //               decoration: BoxDecoration(
+      //                 color: Colors.black,
+      //                 shape: BoxShape.circle,
+      //                 boxShadow: [
+      //                   BoxShadow(
+      //                     spreadRadius: 1,
+      //                     blurRadius: 4,
+      //                     // blurStyle: BlurStyle.inner,
+      //                     color: Colors.grey.shade200,
+      //                     // Color(0xff7090B0),
+      //                   ),
+      //                 ],
+      //               ),
+      //               child:
+      //                   chatController.isLoading.value
+      //                       ? CircularProgressIndicator(
+      //                         color: Colors.white,
+      //                         strokeWidth: 1,
+      //                       )
+      //                       : const Icon(Icons.send, color: Colors.white),
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: SafeArea(
         bottom: true,
         child: StreamBuilder(
