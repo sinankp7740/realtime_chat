@@ -28,7 +28,9 @@ class SplashScreen extends StatelessWidget {
         future: checkIsLoggedInOrNot(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: LinearProgressIndicator(color: Colors.white),
+            );
           } else if (snapshot.hasData) {
             bool isLoggedIn = snapshot.data!;
             // Navigate based on login status
